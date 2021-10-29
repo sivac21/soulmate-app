@@ -20,7 +20,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 
 		<dependency>
@@ -31,7 +31,7 @@
 	</dependencies>
 
 	<modules>
-	<module>profile-service</module>
+	<module>user-service</module>
 	<module>soulmate-service</module>
 	</modules>
 

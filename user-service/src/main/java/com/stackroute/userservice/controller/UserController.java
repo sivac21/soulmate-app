@@ -2,6 +2,7 @@ package com.stackroute.userservice.controller;
 
 import com.stackroute.userservice.exception.UserNotFoundException;
 import com.stackroute.userservice.model.User;
+import com.stackroute.userservice.service.SecurityTokenGenerator;
 import com.stackroute.userservice.service.TokenGenerator;
 import com.stackroute.userservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * @Author Siva
@@ -26,6 +28,7 @@ import java.time.LocalDateTime;
 public class UserController {
 
     private UserService userService;
+    private SecurityTokenGenerator securityTokenGenerator;
 
     @Autowired
     public UserController(UserService userService) {
@@ -36,12 +39,13 @@ public class UserController {
     public ResponseEntity<?> authenticateUser (@RequestBody User user){
         log.debug("Login request received for user" + user + "at " + java.time.LocalDateTime.now());
         ResponseEntity responseEntity = null;
+        Map<String, String> map = null;
         try {
             boolean result = userService.validateUser(user);
             if (result){
-               String jwtToken = TokenGenerator.generateToken(user);
-               responseEntity = new ResponseEntity<>(jwtToken, HttpStatus.OK);
+               map=securityTokenGenerator.generateToken(user);
             }
+            responseEntity = new ResponseEntity<>(map, HttpStatus.OK);
         } catch (UserNotFoundException e) {
             log.error("Exception occur" + e.getMessage());
             responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
