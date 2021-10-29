@@ -1,8 +1,8 @@
 package com.stackroute.soulmateservice.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.stackroute.soulmateservice.model.User;
-import com.stackroute.soulmateservice.service.UserService;
+import com.stackroute.soulmateservice.model.Profile;
+import com.stackroute.soulmateservice.service.ProfileService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,64 +19,63 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-public class UserControllerTest {
+public class ProfileControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Mock
-    private UserService userService;
-    private User user;
-    private List<User> userList;
+    private ProfileService profileService;
+    private Profile profile;
+    private List<Profile> profileList;
 
     @InjectMocks
-    private UserController userController;
+    private ProfileController profileController;
 
     @BeforeEach
     public void setUp(){
-        user = new User("hari@gmail.com","Hari",24,"Male","CSK");
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        profile = new Profile("hari@gmail.com","Hari",24,"Male","CSK");
+        mockMvc = MockMvcBuilders.standaloneSetup(profileController).build();
     }
 
     @Test
     public void givenUserToSaveShouldReturnSavedUser() throws Exception{
-        when(userService.saveUser(any())).thenReturn(user);
+        when(profileService.saveUser(any())).thenReturn(profile);
         mockMvc.perform(post("/api/v1/user")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(user)))
+                .content(asJsonString(profile)))
                 .andExpect(status().isCreated());
-        verify(userService,times(1)).saveUser(any());
+        verify(profileService,times(1)).saveUser(any());
     }
 
     @Test
     public void getAllUsersThenShouldReturnListOfAllUsers() throws Exception{
-        when(userService.getAllUsers()).thenReturn(userList);
+        when(profileService.getAllUsers()).thenReturn(profileList);
         mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/users")
-                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
+                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(profile)))
                 .andDo(MockMvcResultHandlers.print());
-        verify(userService, times(1)).getAllUsers();
+        verify(profileService, times(1)).getAllUsers();
     }
 
     @Test
     public void givenEmailToDeleteThenShouldReturnDeletedUser() throws Exception {
-        when(userService.deleteUser(user.getEmail())).thenReturn(user);
+        when(profileService.deleteUser(profile.getEmail())).thenReturn(profile);
         mockMvc.perform(delete("/api/v1/user/hari@gmail.com")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(user)))
+                .content(asJsonString(profile)))
                 .andExpect(MockMvcResultMatchers.status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void givenUserToUpdateThenShouldReturnUpdatedUser() throws Exception {
-        when(userService.updateUser(any())).thenReturn(user);
-        mockMvc.perform(put("/api/v1/user").contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
+        when(profileService.updateUser(any())).thenReturn(profile);
+        mockMvc.perform(put("/api/v1/user").contentType(MediaType.APPLICATION_JSON).content(asJsonString(profile)))
                 .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print());
     }
 

@@ -31,7 +31,7 @@
 	</dependencies>
 
 	<modules>
-	<module>user-service</module>
+	<module>profile-service</module>
 	<module>soulmate-service</module>
 	</modules>
 

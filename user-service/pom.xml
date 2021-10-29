@@ -8,10 +8,10 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.stackroute</groupId>
-	<artifactId>user-service</artifactId>
+	<artifactId>profile-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>user-service</name>
-	<description>Project for user service</description>
+	<name>profile-service</name>
+	<description>Project for profile service</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
