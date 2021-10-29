@@ -13,6 +13,6 @@ public class TokenGenerator {
     public static String generateToken(User user){
         log.debug("Inside generate token");
         //TODO generate jwt token
-        return null;
+        return "dummy token";
     }
 }
