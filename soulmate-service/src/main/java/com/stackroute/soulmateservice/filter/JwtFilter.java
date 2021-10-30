@@ -19,10 +19,9 @@ import java.io.IOException;
 public class JwtFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request=(HttpServletRequest) servletRequest;
-        HttpServletResponse response=(HttpServletResponse) servletResponse;
-
-        String authHeader=request.getHeader("authorization");
+        final HttpServletRequest request=(HttpServletRequest) servletRequest;
+        final HttpServletResponse response=(HttpServletResponse) servletResponse;
+        final String authHeader=request.getHeader("authorization");
         if("OPTIONS".equals(request.getMethod()))
         {
             response.setStatus(HttpServletResponse.SC_OK);
@@ -33,9 +32,10 @@ public class JwtFilter extends GenericFilterBean {
             {
                 throw new ServletException("Missing or invalid authorization header");
             }
-            String token=authHeader.substring(7);
+            final String token=authHeader.substring(7);
             Claims claims= Jwts.parser().setSigningKey("secretkey").parseClaimsJws(token).getBody();
             request.setAttribute("claims",claims);
+            request.setAttribute("profile", servletRequest.getParameter("email"));
             filterChain.doFilter(request,response);
 
         }

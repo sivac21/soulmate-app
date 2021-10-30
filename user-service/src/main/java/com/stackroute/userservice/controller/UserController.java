@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * @Author Siva
  * @Date 10/30/2021 3:01 PM
@@ -34,12 +36,13 @@ public class UserController {
     public ResponseEntity<?> authenticateUser (@RequestBody User user){
         log.debug("Login request received for user" + user + "at " + java.time.LocalDateTime.now());
         ResponseEntity responseEntity = null;
+        Map<String, String> tokenMap = null;
         try {
             boolean result = userService.validateUser(user);
             if (result){
-
+                tokenMap=jwtTokenGenerator.generateToken(user);
             }
-            responseEntity = new ResponseEntity<>(jwtTokenGenerator.generateToken(user), HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(tokenMap, HttpStatus.OK);
         } catch (UserNotFoundException e) {
             log.error("Exception occur" + e.getMessage());
             responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

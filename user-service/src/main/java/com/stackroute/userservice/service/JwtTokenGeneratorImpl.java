@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author Siva
@@ -16,15 +18,15 @@ import java.util.Date;
 @Service
 public class JwtTokenGeneratorImpl implements JwtTokenGenerator{
     @Override
-    public String generateToken(User user) {
+    public Map<String, String> generateToken(User user) {
         log.debug("Inside generate token");
         String jwtToken="";
         jwtToken= Jwts.builder().setSubject(user.getEmail()).setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256,"secretkey").compact();
-        String token = new String();
-        token.startsWith("token");
-        token.startsWith("message");
-        return token;
+        Map<String, String> tokenMap=new HashMap<>();
+        tokenMap.put("token",jwtToken);
+        tokenMap.put("message","User successfully logged in");
+        return tokenMap;
     }
 
 }
