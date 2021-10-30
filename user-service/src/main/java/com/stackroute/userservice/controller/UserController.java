@@ -2,8 +2,7 @@ package com.stackroute.userservice.controller;
 
 import com.stackroute.userservice.exception.UserNotFoundException;
 import com.stackroute.userservice.model.User;
-import com.stackroute.userservice.service.SecurityTokenGenerator;
-import com.stackroute.userservice.service.TokenGenerator;
+import com.stackroute.userservice.security.SecurityTokenGenerator;
 import com.stackroute.userservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 /**

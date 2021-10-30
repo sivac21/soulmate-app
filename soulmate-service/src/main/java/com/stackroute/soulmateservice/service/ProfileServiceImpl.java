@@ -1,8 +1,10 @@
 package com.stackroute.soulmateservice.service;
 
+import com.stackroute.soulmateservice.config.ProfileMessageProducer;
 import com.stackroute.soulmateservice.exception.ProfileAlreadyExistsException;
 import com.stackroute.soulmateservice.exception.ProfileNotFoundException;
 import com.stackroute.soulmateservice.model.Profile;
+import com.stackroute.soulmateservice.rabbitmq.model.ProfileDTO;
 import com.stackroute.soulmateservice.repository.ProfileRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileRepository profileRepository;
 
     @Autowired
+    private ProfileMessageProducer profileMessageProducer;
+
+    @Autowired
     public ProfileServiceImpl(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
     }
@@ -26,6 +31,10 @@ public class ProfileServiceImpl implements ProfileService {
     public Profile saveUser(Profile profile) throws ProfileAlreadyExistsException {
         log.debug("Inside saveUser()");
         Profile savedUser = null;
+        ProfileDTO profileDTO=new ProfileDTO();
+        profileDTO.setName(profile.getName());
+        profileDTO.setEmail(profile.getEmail());
+        profileDTO.setCity(profile.getCity());
         Optional<Profile> saveUser = profileRepository.findById(profile.getEmail());
         try {
             if (saveUser.isPresent())
@@ -34,6 +43,8 @@ public class ProfileServiceImpl implements ProfileService {
                 throw new ProfileAlreadyExistsException();
             }
             savedUser = profileRepository.save(profile);
+            System.out.println("Saved into mongo");
+            profileMessageProducer.sendMessageToRabbitMq(profileDTO);
         }catch (Exception ex)
         {
             log.error("exception occur" + ex.getMessage());

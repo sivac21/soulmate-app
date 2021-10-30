@@ -1,6 +1,7 @@
-package com.stackroute.userservice.service;
+package com.stackroute.userservice.security;
 
 import com.stackroute.userservice.model.User;
+import com.stackroute.userservice.security.SecurityTokenGenerator;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 @Slf4j
 @Service
-public class TokenGenerator implements SecurityTokenGenerator{
+public class TokenGenerator implements SecurityTokenGenerator {
     public Map<String, String> generateToken(User user) {
         String jwtToken= Jwts.builder().setSubject(user.getEmail()).setIssuedAt(new Date())
                 .signWith(SignatureAlgorithm.HS256,"secretkey").compact();

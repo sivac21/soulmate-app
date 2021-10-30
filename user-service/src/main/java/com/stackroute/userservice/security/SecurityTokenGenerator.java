@@ -1,4 +1,4 @@
-package com.stackroute.userservice.service;
+package com.stackroute.userservice.security;
 
 import com.stackroute.userservice.model.User;
 
