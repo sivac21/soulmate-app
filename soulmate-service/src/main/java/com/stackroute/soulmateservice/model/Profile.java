@@ -1,18 +1,23 @@
 package com.stackroute.soulmateservice.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerator;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.stereotype.Component;
+
+import java.io.Serializable;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
+@Component
+@JsonIdentityInfo(generator = ObjectIdGenerator.IntSequenceGenerator.class, property = "@id", scope = Profile.class)
 @Document
-public class Profile {
+public class Profile implements Serializable {
     @Id
     private String email;
     private String Name;

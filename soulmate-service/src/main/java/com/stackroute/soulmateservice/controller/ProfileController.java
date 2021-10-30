@@ -3,8 +3,10 @@ package com.stackroute.soulmateservice.controller;
 import com.stackroute.soulmateservice.exception.ProfileAlreadyExistsException;
 import com.stackroute.soulmateservice.exception.ProfileNotFoundException;
 import com.stackroute.soulmateservice.model.Profile;
+import com.stackroute.soulmateservice.service.ProfileMessageProducer;
 import com.stackroute.soulmateservice.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,7 @@ import java.util.List;
 public class ProfileController {
     private ProfileService profileService;
     private ResponseEntity responseEntity;
+    private ProfileMessageProducer profileMessageProducer;
 
     @Autowired
     public ProfileController(ProfileService profileService) {
@@ -75,5 +78,14 @@ public class ProfileController {
     public ResponseEntity<Profile> getUserByEmail(@PathVariable("email") String email) throws ProfileNotFoundException {
         responseEntity = new ResponseEntity<>(profileService.getUserByemail(email),HttpStatus.OK);
         return responseEntity;
+    }
+
+    @Value("${app.message}")
+    private String message;
+
+    @PostMapping(value = "profile")
+    public String publishUserProfile(@RequestBody Profile profile){
+        profileMessageProducer.sendMessageToRabbitMq(profile);
+        return message;
     }
 }
