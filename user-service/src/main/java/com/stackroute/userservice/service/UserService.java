@@ -6,9 +6,10 @@ import com.stackroute.userservice.model.User;
 
 /**
  * @Author Siva
- * @Date 10/29/2021 10:41 AM
+ * @Date 10/30/2021 2:58 PM
  */
 public interface UserService {
+
     User saveUser (User user) throws UserAlreadyExistsException;
     User findUserByEmailId (String email) throws UserNotFoundException;
     boolean validateUser (User user) throws UserNotFoundException;

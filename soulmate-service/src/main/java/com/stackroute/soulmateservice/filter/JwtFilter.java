@@ -1,4 +1,4 @@
-package com.stackroute.userservice.filter;
+package com.stackroute.soulmateservice.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

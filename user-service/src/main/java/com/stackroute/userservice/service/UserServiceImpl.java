@@ -12,12 +12,11 @@ import java.util.Optional;
 
 /**
  * @Author Siva
- * @Date 10/29/2021 10:46 AM
+ * @Date 10/30/2021 2:59 PM
  */
-
-@Service
 @Slf4j
-public class UserServiceImpl implements UserService {
+@Service
+public class UserServiceImpl implements UserService{
 
     private UserRepository userRepository;
 
@@ -49,13 +48,13 @@ public class UserServiceImpl implements UserService {
     public User findUserByEmailId(String email) throws UserNotFoundException {
         User user = null;
         try {
-           user = userRepository.findById(email).orElse(null);
-           if (user!=null){
-               return user;
-           }
-           else {
-               throw new UserNotFoundException("User is not present");
-           }
+            user = userRepository.findById(email).orElse(null);
+            if (user!=null){
+                return user;
+            }
+            else {
+                throw new UserNotFoundException("User is not present");
+            }
         }
         catch (Exception ex)
         {
@@ -66,13 +65,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean validateUser(User user) throws UserNotFoundException {
-       User retriveUser = findUserByEmailId(user.getEmail());
-       if (user.getPassword().equals(retriveUser.getPassword()))
-       {
-           return true;
-       }
-       else {
-           return false;
-       }
+        User retriveUser = findUserByEmailId(user.getEmail());
+        if (user.getPassword().equals(retriveUser.getPassword()))
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

@@ -2,9 +2,9 @@ package com.stackroute.userservice.exception;
 
 /**
  * @Author Siva
- * @Date 10/29/2021 10:49 AM
+ * @Date 10/30/2021 3:01 PM
  */
-public class UserAlreadyExistsException extends Exception {
+public class UserAlreadyExistsException extends Exception{
     public UserAlreadyExistsException() {
     }
 

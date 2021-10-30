@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 /**
  * @Author Siva
- * @Date 10/29/2021 12:31 PM
+ * @Date 10/30/2021 3:02 PM
  */
-@Component
 @Slf4j
+@Component
 public class BootstrapUserData implements CommandLineRunner {
 
     private UserRepository userRepository;

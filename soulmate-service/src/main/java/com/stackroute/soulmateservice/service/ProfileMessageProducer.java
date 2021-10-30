@@ -1,21 +1,23 @@
-package com.stackroute.soulmateservice.config;
+package com.stackroute.soulmateservice.service;
 
 import com.stackroute.soulmateservice.rabbitmq.model.ProfileDTO;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * @Author Siva
  * @Date 10/29/2021 1:02 PM
  */
-@Component
+@Service
 public class ProfileMessageProducer {
     private RabbitTemplate rabbitTemplate;
     private DirectExchange directExchange;
 
     @Autowired
+    //TODO add exchange and routing key
     public ProfileMessageProducer(RabbitTemplate rabbitTemplate, DirectExchange directExchange) {
         super();
         this.rabbitTemplate = rabbitTemplate;

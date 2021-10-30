@@ -1,6 +1,5 @@
 package com.stackroute.soulmateservice.service;
 
-import com.stackroute.soulmateservice.config.ProfileMessageProducer;
 import com.stackroute.soulmateservice.exception.ProfileAlreadyExistsException;
 import com.stackroute.soulmateservice.exception.ProfileNotFoundException;
 import com.stackroute.soulmateservice.model.Profile;

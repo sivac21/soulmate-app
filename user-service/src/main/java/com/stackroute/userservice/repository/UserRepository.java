@@ -6,9 +6,8 @@ import org.springframework.stereotype.Repository;
 
 /**
  * @Author Siva
- * @Date 10/29/2021 10:39 AM
+ * @Date 10/30/2021 3:00 PM
  */
-
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 }

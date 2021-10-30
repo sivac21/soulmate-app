@@ -2,7 +2,7 @@ package com.stackroute.userservice.controller;
 
 import com.stackroute.userservice.exception.UserNotFoundException;
 import com.stackroute.userservice.model.User;
-import com.stackroute.userservice.security.SecurityTokenGenerator;
+import com.stackroute.userservice.service.JwtTokenGenerator;
 import com.stackroute.userservice.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,37 +13,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 /**
  * @Author Siva
- * @Date 10/29/2021 11:43 AM
+ * @Date 10/30/2021 3:01 PM
  */
-
-@RestController
 @Slf4j
+@RestController
 @RequestMapping("/api/v1")
 public class UserController {
-
     private UserService userService;
-    private SecurityTokenGenerator securityTokenGenerator;
+    private JwtTokenGenerator jwtTokenGenerator;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtTokenGenerator jwtTokenGenerator) {
         this.userService = userService;
+        this.jwtTokenGenerator = jwtTokenGenerator;
     }
 
     @PostMapping("/loginuser")
     public ResponseEntity<?> authenticateUser (@RequestBody User user){
         log.debug("Login request received for user" + user + "at " + java.time.LocalDateTime.now());
         ResponseEntity responseEntity = null;
-        Map<String, String> map = null;
         try {
             boolean result = userService.validateUser(user);
             if (result){
-               map=securityTokenGenerator.generateToken(user);
+
             }
-            responseEntity = new ResponseEntity<>(map, HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(jwtTokenGenerator.generateToken(user), HttpStatus.OK);
         } catch (UserNotFoundException e) {
             log.error("Exception occur" + e.getMessage());
             responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
