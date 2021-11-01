@@ -1,0 +1,47 @@
+version: "3.3"
+services:
+  mysqlservice:
+    image: mysql:5.5
+    ports:
+      - 3306:3306
+    container_name: mysql-container
+    network_mode: host
+    hostname: localhost
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+  mongodbservice:
+    image: mongo:latest
+    container_name: mongo-container
+    network_mode: host
+    hostname: localhost
+    ports:
+      - 27017:27017
+
+  user-service:
+    container_name: user-service
+    build: user-service/
+    hostname: localhost
+    network_mode: host
+    ports:
+      - 8083:8083
+    depends_on:
+      - mysqlservice
+    restart: always
+
+  soulmate-service:
+    container_name: soulmate-service
+    build: soulmate-service/
+    hostname: localhost
+    network_mode: host
+    ports:
+      - 8088:8088
+    depends_on:
+      - mongodbservice
+    restart: always
+
+
+
