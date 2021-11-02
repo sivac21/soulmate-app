@@ -21,7 +21,8 @@ import java.io.Serializable;
 public class Profile implements Serializable {
     @Id
     private String email;
-    private String Name;
+    private String name;
+    private String password;
     private int age;
     private String gender;
     private String city;

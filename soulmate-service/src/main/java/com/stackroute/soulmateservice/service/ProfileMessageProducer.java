@@ -16,7 +16,6 @@ public class ProfileMessageProducer {
     private RabbitTemplate rabbitTemplate;
 
     @Autowired
-    //TODO add exchange and routing key
     public ProfileMessageProducer(RabbitTemplate rabbitTemplate) {
         super();
         this.rabbitTemplate = rabbitTemplate;

@@ -5,6 +5,7 @@ import com.stackroute.soulmateservice.exception.ProfileNotFoundException;
 import com.stackroute.soulmateservice.model.Profile;
 import com.stackroute.soulmateservice.service.ProfileMessageProducer;
 import com.stackroute.soulmateservice.service.ProfileService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v2")
 public class ProfileController {
@@ -27,14 +29,19 @@ public class ProfileController {
 
     @PostMapping("/user")
     public ResponseEntity<Profile> saveUser(@RequestBody Profile profile) throws ProfileAlreadyExistsException {
+        log.debug("Save request received for profile" + profile + "at " + java.time.LocalDateTime.now());
         try {
             Profile savedProfile = profileService.saveUser(profile);
-            //TODO call ProfileMessageProducer to publish savedProfile into rabbitmq
             responseEntity = new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
         }
         catch (ProfileAlreadyExistsException e)
         {
-            throw new ProfileAlreadyExistsException();
+            log.error("Exception occur" + e.getMessage());
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        catch (Exception e) {
+            log.error("Exception occur" + e.getMessage());
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
 
@@ -48,18 +55,25 @@ public class ProfileController {
 
     @DeleteMapping("user/{email}")
     public ResponseEntity<Profile> deleteUser(@PathVariable("email") String email) throws ProfileNotFoundException {
+
         try {
             responseEntity = new ResponseEntity<>(profileService.deleteUser(email),HttpStatus.OK);
         }
         catch (ProfileNotFoundException e)
         {
-            throw new ProfileNotFoundException();
+            log.error("Exception occur" + e.getMessage());
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        catch (Exception e) {
+            log.error("Exception occur" + e.getMessage());
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }
 
     @PutMapping("user")
     public ResponseEntity<Profile> updateUser(@RequestBody Profile profile) throws ProfileNotFoundException, ProfileAlreadyExistsException {
+        log.debug("Update request received for profile" + profile + "at " + java.time.LocalDateTime.now());
         try {
             Profile updatedProfile = profileService.updateUser(profile);
             if (profileService.updateUser(profile) != null) {
@@ -67,9 +81,11 @@ public class ProfileController {
             }
         }catch (ProfileNotFoundException e)
         {
-            throw new ProfileNotFoundException();
+            log.error("Exception occur" + e.getMessage());
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }catch (Exception e){
-            throw new ProfileAlreadyExistsException();
+            log.error("Exception occur" + e.getMessage());
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
     }

@@ -2,6 +2,7 @@ package com.stackroute.soulmateservice.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
@@ -16,9 +17,11 @@ import java.io.IOException;
  * @Author Siva
  * @Date 10/29/2021 4:11 PM
  */
+@Slf4j
 public class JwtFilter extends GenericFilterBean {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        log.debug("Inside doFilter()");
         final HttpServletRequest request=(HttpServletRequest) servletRequest;
         final HttpServletResponse response=(HttpServletResponse) servletResponse;
         final String authHeader=request.getHeader("authorization");

@@ -106,6 +106,7 @@ public class ProfileServiceImpl implements ProfileService {
                 return profile;
             }
             else {
+                log.error("Profile is not found");
                 throw new ProfileNotFoundException();
             }
         }
