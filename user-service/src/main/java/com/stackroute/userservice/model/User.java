@@ -2,10 +2,13 @@ package com.stackroute.userservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.*;
 import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -22,6 +25,10 @@ import java.io.Serializable;
 @Entity
 public class User implements Serializable {
     @Id
+    @NotNull
     private String email;
+
+    @NotNull
+    @Min(8)
     private String password;
 }

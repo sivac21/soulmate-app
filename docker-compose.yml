@@ -27,7 +27,7 @@ services:
     hostname: localhost
     network_mode: host
     ports:
-      - 8083:8083
+      - 8888:8888
     depends_on:
       - mysqlservice
     restart: always

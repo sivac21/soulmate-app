@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
@@ -28,7 +29,7 @@ public class ProfileController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<Profile> saveUser(@RequestBody Profile profile) throws ProfileAlreadyExistsException {
+    public ResponseEntity<Profile> saveUser(@RequestBody @Valid Profile profile) throws ProfileAlreadyExistsException {
         log.debug("Save request received for profile" + profile + "at " + java.time.LocalDateTime.now());
         try {
             Profile savedProfile = profileService.saveUser(profile);
