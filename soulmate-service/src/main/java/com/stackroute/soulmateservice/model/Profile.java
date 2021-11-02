@@ -19,8 +19,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @ToString
-@Component
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = Profile.class)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = Profile.class)
 @Document
 public class Profile implements Serializable {
     @Id

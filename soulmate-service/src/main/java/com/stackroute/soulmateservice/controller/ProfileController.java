@@ -17,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v2")
+@RequestMapping("/api/v1")
 public class ProfileController {
     private ProfileService profileService;
     private ResponseEntity responseEntity;
@@ -54,7 +54,7 @@ public class ProfileController {
         return responseEntity;
     }
 
-    @DeleteMapping("user/{email}")
+    @DeleteMapping("/user/{email}")
     public ResponseEntity<Profile> deleteUser(@PathVariable("email") String email) throws ProfileNotFoundException {
 
         try {
@@ -72,7 +72,7 @@ public class ProfileController {
         return responseEntity;
     }
 
-    @PutMapping("user")
+    @PutMapping("/user")
     public ResponseEntity<Profile> updateUser(@RequestBody Profile profile) throws ProfileNotFoundException, ProfileAlreadyExistsException {
         log.debug("Update request received for profile" + profile + "at " + java.time.LocalDateTime.now());
         try {
@@ -91,7 +91,7 @@ public class ProfileController {
         return responseEntity;
     }
 
-    @GetMapping("users/{email}")
+    @GetMapping("/users/{email}")
     public ResponseEntity<Profile> getUserByEmail(@PathVariable("email") String email) throws ProfileNotFoundException {
         responseEntity = new ResponseEntity<>(profileService.getUserByemail(email),HttpStatus.OK);
         return responseEntity;
