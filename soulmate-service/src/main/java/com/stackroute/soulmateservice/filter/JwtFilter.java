@@ -50,7 +50,6 @@ public class JwtFilter extends GenericFilterBean {
             request.setAttribute("claims",claims);
             request.setAttribute("profile", servletRequest.getParameter("email"));
             filterChain.doFilter(request,response);
-
         }
 
     }
