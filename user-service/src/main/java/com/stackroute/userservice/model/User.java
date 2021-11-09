@@ -7,7 +7,6 @@ import lombok.*;
 import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.io.Serializable;
@@ -22,7 +21,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @Component
-@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = User.class)
+//@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = User.class)
 @Entity
 public class User implements Serializable {
     @Id

@@ -18,9 +18,6 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileRepository profileRepository;
 
     @Autowired
-    private ProfileMessageProducer profileMessageProducer;
-
-    @Autowired
     public ProfileServiceImpl(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
     }

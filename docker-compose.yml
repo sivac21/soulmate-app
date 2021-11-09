@@ -30,6 +30,7 @@ services:
       - 8888:8888
     depends_on:
       - mysqlservice
+      - rabbitmq
     restart: always
 
   soulmate-service:
@@ -41,7 +42,14 @@ services:
       - 8088:8088
     depends_on:
       - mongodbservice
+      - rabbitmq
     restart: always
 
-
+  rabbitmq:
+    image: rabbitmq:latest
+    container_name: rabbitmq-container
+    network_mode: host
+    hostname: localhost
+    ports:
+      - 15672:15672
 

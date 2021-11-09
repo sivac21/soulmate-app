@@ -24,8 +24,9 @@ public class ProfileController {
     private ProfileMessageProducer profileMessageProducer;
 
     @Autowired
-    public ProfileController(ProfileService profileService) {
+    public ProfileController(ProfileService profileService, ProfileMessageProducer profileMessageProducer) {
         this.profileService = profileService;
+        this.profileMessageProducer = profileMessageProducer;
     }
 
     @PostMapping("/user")

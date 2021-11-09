@@ -1,8 +1,8 @@
 package com.stackroute.soulmateservice.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerator;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,6 +20,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 //@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class, property = "@id", scope = Profile.class)
+@Component
 @Document
 public class Profile implements Serializable {
     @Id

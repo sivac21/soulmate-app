@@ -4,7 +4,6 @@ import com.stackroute.soulmateservice.model.Profile;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -17,7 +16,6 @@ public class ProfileMessageProducer {
 
     @Autowired
     public ProfileMessageProducer(RabbitTemplate rabbitTemplate) {
-        super();
         this.rabbitTemplate = rabbitTemplate;
     }
 
