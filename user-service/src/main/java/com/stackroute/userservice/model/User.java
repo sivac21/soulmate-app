@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 /**
@@ -29,6 +30,6 @@ public class User implements Serializable {
     private String email;
 
     @NotNull
-    @Min(8)
+    @Pattern(regexp="^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$",message="password must 8 characters, 2 UpperCase, 1 Special Character, 2 Numbers & 3 LowerCase")
     private String password;
 }
