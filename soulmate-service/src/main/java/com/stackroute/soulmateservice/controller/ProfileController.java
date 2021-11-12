@@ -3,6 +3,7 @@ package com.stackroute.soulmateservice.controller;
 import com.stackroute.soulmateservice.exception.ProfileAlreadyExistsException;
 import com.stackroute.soulmateservice.exception.ProfileNotFoundException;
 import com.stackroute.soulmateservice.model.Profile;
+import com.stackroute.soulmateservice.model.User;
 import com.stackroute.soulmateservice.service.ProfileMessageProducer;
 import com.stackroute.soulmateservice.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin
 public class ProfileController {
     private ProfileService profileService;
     private ResponseEntity responseEntity;
@@ -30,16 +32,22 @@ public class ProfileController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<Profile> saveUser(@RequestBody @Valid Profile profile) throws ProfileAlreadyExistsException {
+    public ResponseEntity<Profile> saveUser(@Valid @RequestBody Profile profile) throws ProfileAlreadyExistsException {
         log.debug("Save request received for profile" + profile + "at " + java.time.LocalDateTime.now());
         try {
+            log.info("profile details" + profile);
             Profile savedProfile = profileService.saveUser(profile);
+            log.info("Saved user successfully" + savedProfile);
+            User user = new User();
+            user.setEmail(profile.getEmail());
+            user.setPassword(profile.getPassword());
+            profileMessageProducer.sendMessageToRabbitMq(user);
             responseEntity = new ResponseEntity<>(savedProfile, HttpStatus.CREATED);
         }
         catch (ProfileAlreadyExistsException e)
         {
             log.error("Exception occur" + e.getMessage());
-            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            responseEntity = new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
         }
         catch (Exception e) {
             log.error("Exception occur" + e.getMessage());
@@ -73,7 +81,7 @@ public class ProfileController {
         return responseEntity;
     }
 
-    @PutMapping("/user")
+    @PutMapping("user")
     public ResponseEntity<Profile> updateUser(@RequestBody Profile profile) throws ProfileNotFoundException, ProfileAlreadyExistsException {
         log.debug("Update request received for profile" + profile + "at " + java.time.LocalDateTime.now());
         try {
@@ -98,12 +106,12 @@ public class ProfileController {
         return responseEntity;
     }
 
-    @Value("${app.message}")
-    private String message;
-
-    @PostMapping(value = "profile")
-    public String publishUserProfile(@RequestBody Profile profile){
-        profileMessageProducer.sendMessageToRabbitMq(profile);
-        return message;
-    }
+//    @Value("${app.message}")
+//    private String message;
+//
+//    @PostMapping(value = "profile")
+//    public String publishUserProfile(@RequestBody Profile profile){
+//        profileMessageProducer.sendMessageToRabbitMq(profile);
+//        return message;
+//    }
 }

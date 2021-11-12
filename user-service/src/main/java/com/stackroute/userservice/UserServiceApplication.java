@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @EnableRabbit
-@EnableEncryptableProperties
+//@EnableEncryptableProperties
 @SpringBootApplication
 public class UserServiceApplication {
 

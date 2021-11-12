@@ -1,15 +1,30 @@
 version: "3.3"
 services:
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    container_name: rabbitmq-container
+    network_mode: "host"
+    hostname: localhost
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_VHOST:
+    ports:
+      - 5672:5672
+      - 15672:15672
+
   mysqlservice:
-    image: mysql:5.5
+    image: mysql:latest
+    container_name: mysql-container
+    restart: always
+    network_mode: "host"
+    hostname: localhost
     ports:
       - 3306:3306
-    container_name: mysql-container
-    network_mode: host
-    hostname: localhost
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_USERNAME: authuser
       MYSQL_PASSWORD: root
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
 
@@ -30,7 +45,6 @@ services:
       - 8888:8888
     depends_on:
       - mysqlservice
-      - rabbitmq
     restart: always
 
   soulmate-service:
@@ -42,14 +56,7 @@ services:
       - 8088:8088
     depends_on:
       - mongodbservice
-      - rabbitmq
     restart: always
 
-  rabbitmq:
-    image: rabbitmq:latest
-    container_name: rabbitmq-container
-    network_mode: host
-    hostname: localhost
-    ports:
-      - 15672:15672
+
 

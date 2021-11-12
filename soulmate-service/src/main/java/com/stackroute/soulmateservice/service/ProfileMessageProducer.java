@@ -1,6 +1,6 @@
 package com.stackroute.soulmateservice.service;
 
-import com.stackroute.soulmateservice.model.Profile;
+import com.stackroute.soulmateservice.model.User;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +16,7 @@ public class ProfileMessageProducer {
 
     @Autowired
     public ProfileMessageProducer(RabbitTemplate rabbitTemplate) {
+        super();
         this.rabbitTemplate = rabbitTemplate;
     }
 
@@ -25,8 +26,12 @@ public class ProfileMessageProducer {
     @Value("${spring.rabbitmq.routingkey}")
     private String routingkey;
 
-    public void sendMessageToRabbitMq(Profile profile)
+    public void sendMessageToRabbitMq(User user)
     {
-        rabbitTemplate.convertAndSend(exchange,routingkey, profile);
+        System.out.println("In producer method");
+//        User user = new User();
+//        user.setEmail(profile.getEmail());
+//        user.setPassword(profile.getPassword());
+        rabbitTemplate.convertAndSend(exchange,routingkey, user);
     }
 }

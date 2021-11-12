@@ -1,8 +1,5 @@
 package com.stackroute.userservice.model;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import lombok.*;
 import org.springframework.stereotype.Component;
 import javax.persistence.Entity;

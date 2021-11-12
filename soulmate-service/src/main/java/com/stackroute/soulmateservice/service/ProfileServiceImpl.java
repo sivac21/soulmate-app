@@ -18,6 +18,9 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileRepository profileRepository;
 
     @Autowired
+    private ProfileMessageProducer profileMessageProducer;
+
+    @Autowired
     public ProfileServiceImpl(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
     }
@@ -25,19 +28,14 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile saveUser(Profile profile) throws ProfileAlreadyExistsException {
         log.debug("Inside saveUser()");
-        Profile savedUser = null;
+        Profile savedUser = new Profile();
         Optional<Profile> saveUser = profileRepository.findById(profile.getEmail());
-        try {
             if (saveUser.isPresent())
             {
                 log.error("Profile is already present");
                 throw new ProfileAlreadyExistsException();
             }
             savedUser = profileRepository.save(profile);
-        }catch (Exception ex)
-        {
-            log.error("exception occur" + ex.getMessage());
-        }
         return savedUser;
     }
 
